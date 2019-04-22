@@ -7,7 +7,10 @@ export default class Search extends React.Component {
                 <form className="search-form">
                     <label htmlFor="user-search">Search: </label>
                     <input type="text" name="user-search" id="user-search"></input>
-                    <button type="submit">Search</button>
+                    <button type="submit" onClick={(event)=>{
+                    event.preventDefault()
+                    return;
+                    }}>Search</button>
                 </form>
             </div>
         )
