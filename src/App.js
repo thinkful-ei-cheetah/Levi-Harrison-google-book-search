@@ -6,25 +6,31 @@ import ResultsList from './ResultsList/ResultsList';
 
 class App extends Component {
   state={
-    items:[{
-      title:'',
-      author:[],
-      price:'',
-      description:'',
-      image:'',
-      id:''
-    }]
+    items:[
+      // {
+      // title:'',
+      // author:[],
+      // price:'',
+      // description:'',
+      // image:'',
+      // id:'',
+      // }
+    ],
+    error: null,
+    printTypeFilter: '',
+    bookTypeFilter: ''
   }
   // filterState=()=>{
   // }
-  componentDidMount() {
+  apiHandler = (userInput) => {
+    console.log(userInput);
     const url = 'https://www.googleapis.com/books/v1/volumes?q=';
-    const userInput='henry'
+    const newInput = encodeURIComponent(userInput);
     const key = 'AIzaSyA3UIsSPkNxyAoEtMa2EQ_DdHwxfsFysw8';
     const options = {
       method: 'GET',
     }
-    fetch(url+userInput+key, options)
+    fetch(url+newInput+'&key='+key, options)
       .then(res => {
         if(!res.ok) {
           throw new Error('Something went wrong, please try again later.');
@@ -33,8 +39,9 @@ class App extends Component {
       })
       .then(res => res.json())
       .then(data => {
+        // console.log(data)
         this.setState({
-          bookmarks: data,
+          items: data.items,
           error: null
         });
       })
@@ -48,7 +55,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Google Book Search</h1>
-        <Search />
+        <Search apiHandler={this.apiHandler} />
         <Filter />
         <ResultsList />
       </div>

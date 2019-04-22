@@ -4,13 +4,14 @@ export default class Search extends React.Component {
     render() {
         return (
             <div className="search-main">
-                <form className="search-form">
-                    <label htmlFor="user-search">Search: </label>
-                    <input type="text" name="user-search" id="user-search"></input>
-                    <button type="submit" onClick={(event)=>{
-                    event.preventDefault()
-                    return;
-                    }}>Search</button>
+                <form className="search-form" 
+                onSubmit={event=>{
+                    event.preventDefault();
+                    this.props.apiHandler(event.target.search.value)
+                }}>
+                    <label htmlFor="search">Search: </label>
+                    <input type="text" name="search" id="search"></input>
+                    <button type="submit">Search</button>
                 </form>
             </div>
         )
