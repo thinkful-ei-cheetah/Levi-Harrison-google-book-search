@@ -19,10 +19,31 @@ class App extends Component {
   // }
   componentDidMount() {
     const url = 'https://www.googleapis.com/books/v1/volumes?q=';
+    const userInput='henry'
     const key = 'AIzaSyA3UIsSPkNxyAoEtMa2EQ_DdHwxfsFysw8';
     const options = {
       method: 'GET',
-    }};
+    }
+    fetch(url+userInput+key, options)
+      .then(res => {
+        if(!res.ok) {
+          throw new Error('Something went wrong, please try again later.');
+        }
+        return res;
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          bookmarks: data,
+          error: null
+        });
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
+  };
   render() {
     return (
       <div className="App">
