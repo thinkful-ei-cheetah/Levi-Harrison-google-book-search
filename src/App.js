@@ -1,28 +1,18 @@
 import React, { Component } from 'react';
 
 import Search from './Search/Search';
-import Filter from './Filter/Filter';
 import ResultsList from './ResultsList/ResultsList';
 
 class App extends Component {
   state={
-    items:[
-      // {
-      // title:'',
-      // author:[],
-      // price:'',
-      // description:'',
-      // image:'',
-      // id:'',
-      // }
-    ],
+    items:[],
     error: null,
     printTypeFilter: '',
     bookTypeFilter: ''
   }
   // filterState=()=>{
   // }
-  apiHandler = (userInput) => {
+  apiHandler = (userInput, filter, printType) => {
     console.log(userInput);
     const url = 'https://www.googleapis.com/books/v1/volumes?q=';
     const newInput = encodeURIComponent(userInput);
@@ -30,7 +20,7 @@ class App extends Component {
     const options = {
       method: 'GET',
     }
-    fetch(url+newInput+'&key='+key, options)
+    fetch(url+newInput+'&bookType'+filter+'&printType'+printType+'&key='+key, options)
       .then(res => {
         if(!res.ok) {
           throw new Error('Something went wrong, please try again later.');
@@ -56,8 +46,7 @@ class App extends Component {
       <div className="App">
         <h1>Google Book Search</h1>
         <Search apiHandler={this.apiHandler} />
-        <Filter />
-        <ResultsList />
+        <ResultsList books={this.state.items} />
       </div>
     );
   }
